@@ -1,0 +1,1 @@
+python main.py --content inputs/contents/in4.jpg --style inputs/styles/candy.jpg  
