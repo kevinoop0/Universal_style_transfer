@@ -20,14 +20,11 @@ in the bottleneck layer.
 Possible ARGS are:
 +  `--content CONTENT` path of the content image (or a directory containing images) to be trasformed;
 +  `--style STYLE` path of the style image (or a directory containing images) to use;
-+  `--stylePair STYLEPAIR` path of two style images (separated by ",") to combine together;
 +  `--contentSize CONTENTSIZE` reshape content image to have the new specified maximum size (keeping aspect ratio);
 +  `--styleSize STYLESIZE` reshape style image to have the new specified maximum size (keeping aspect ratio);
 +  `--outDir OUTDIR` path of the directory where stylized results will be saved (default is `outputs/`);
 +  `--alpha ALPHA` hyperparameter balancing the blending between original content features and WCT-transformed features (default is `0.2`);
 +  `--no-cuda` flag to enable CPU-only computations (default is `False` i.e. GPU (CUDA) accelaration);
-
-Supported image file formats are: __jpg__, __jpeg__, __png__.
 
 An example
 

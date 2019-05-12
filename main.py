@@ -11,11 +11,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Pytorch implementation of arbitrary style transfer via CNN features WCT trasform')
     parser.add_argument('--content', help='Path of the content image (or a directory containing images) to be trasformed')
     parser.add_argument('--style', help='Path of the style image (or a directory containing images) to use')
-    parser.add_argument('--stylePair', help='Path of two style images (separated by ",") to use in combination')
     parser.add_argument('--outDir', default='outputs', help='Path of the directory where stylized results will be saved')
     parser.add_argument('--no-cuda', default=False, action='store_true', help='Flag to enables GPU (CUDA) accelerated computations')
     parser.add_argument('--alpha', type=float, default=0.2, help='Hyperparameter balancing the blending between original content features and WCT-transformed features')
-    parser.add_argument('--beta', type=float, default=0.5, help='Hyperparameter balancing the interpolation between the two images in the stylePair')
     parser.add_argument('--contentSize', type=int, default=512, help='Reshape content image to have the new specified maximum size (keeping aspect ratio)') # default=768 in the paper
     parser.add_argument('--styleSize', type=int, default=512, help='Reshape style image to have the new specified maximum size (keeping aspect ratio)')
 

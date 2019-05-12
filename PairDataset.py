@@ -5,8 +5,6 @@ import numpy as np
 from PIL import Image
 import torchvision.transforms.functional as transforms
 
-supported_img_formats = ('.png', '.jpg', '.jpeg')
-
 def load_img(path, new_size):
     img = Image.open(path).convert(mode='RGB')
     if new_size:
@@ -26,15 +24,8 @@ class ContentStylePairDataset(Dataset):
         super(Dataset, self).__init__()
         self.contentSize = args.contentSize
         self.styleSize = args.styleSize
+        self.pairs_fn = [(args.content, args.style)]
 
-        if args.style.endswith(supported_img_formats):
-            self.pairs_fn = [(args.content, args.style)]
-        else:
-            self.pairs_fn = []
-            for c in os.listdir(args.content):
-                for s in os.listdir(args.style):
-                    path_pair = (os.path.join(args.content, c), os.path.join(args.style, s))
-                    self.pairs_fn.append(path_pair)
 
     def __len__(self):
         return len(self.pairs_fn)

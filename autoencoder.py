@@ -51,39 +51,7 @@ def wct(alpha, cf, sf, s1f=None, beta=None):
 
     cs0_features = colored + s_mean.resize_as_(colored)
     cs0_features = cs0_features.view_as(cf)
-
-    # additional style coloring
-    if beta:
-        sf = s1f
-        sf = sf.double()
-        _, s_width, s_heigth = sf.size(0), sf.size(1), sf.size(2)
-        sfv = sf.view(c_channels, -1)
-
-        s_mean = torch.mean(sfv, 1)
-        s_mean = s_mean.unsqueeze(1).expand_as(sfv)
-        sfv = sfv - s_mean
-
-        s_covm = torch.mm(sfv, sfv.t()).div((s_width * s_heigth) - 1)
-        s_u, s_e, s_v = torch.svd(s_covm, some=False)
-
-        s_k = c_channels
-        for i in range(c_channels):
-            if s_e[i] < 0.00001:
-                s_k = i
-                break
-        s_d = (s_e[0:s_k]).pow(0.5)
-
-        c_step1 = torch.mm(s_v[:, 0:s_k], torch.diag(s_d))
-        c_step2 = torch.mm(c_step1, s_v[:, 0:s_k].t())
-        colored = torch.mm(c_step2, whitened)
-
-        cs1_features = colored + s_mean.resize_as_(colored)
-        cs1_features = cs1_features.view_as(cf)
-
-        target_features = beta * cs0_features + (1.0 - beta) * cs1_features
-    else:
-        target_features = cs0_features
-
+    target_features = cs0_features
     ccsf = alpha * target_features + (1.0 - alpha) * cf
     return ccsf.float().unsqueeze(0)
 
