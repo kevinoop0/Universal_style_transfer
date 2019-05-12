@@ -25,7 +25,6 @@ class ContentStylePairDataset(Dataset):
         self.styleSize = args.styleSize
         self.pairs_fn = [(args.content, args.style)]
 
-
     def __len__(self):
         return len(self.pairs_fn)
 

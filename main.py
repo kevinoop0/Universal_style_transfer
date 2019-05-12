@@ -6,7 +6,7 @@ import torchvision
 import autoencoder
 import PairDataset
 from torch.utils.data import DataLoader
-import ipdb
+# import ipdb
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Pytorch implementation of arbitrary style transfer via CNN features WCT trasform')
@@ -37,7 +37,7 @@ def main():
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=0)
 
     for i, sample in enumerate(dataloader):
-        ipdb.set_trace()
+        # ipdb.set_trace()
         s_basename = str(os.path.basename(sample['stylePath'][0]).split('.')[0])
         content = sample['content'].to(device=args.device)
         style = sample['style'].to(device=args.device)
