@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from encoder_decoder_factory import Encoder, Decoder
 
-def wct(alpha, cf, sf, s1f=None, beta=None):
+def wct(alpha, cf, sf):
     # content image whitening
     cf = cf.double()
     c_channels, c_width, c_height = cf.size(0), cf.size(1), cf.size(2)
@@ -55,8 +55,6 @@ def wct(alpha, cf, sf, s1f=None, beta=None):
     ccsf = alpha * target_features + (1.0 - alpha) * cf
     return ccsf.float().unsqueeze(0)
 
-
-
 def stylize(level, content, style0, encoders, decoders, alpha, svd_device, cnn_device):
     with torch.no_grad():
 
@@ -78,8 +76,11 @@ class MultiLevelWCT(nn.Module):
         self.encoders = [self.e5, self.e4, self.e3, self.e2, self.e1]
         self.d1, self.d2, self.d3, self.d4, self.d5 = Decoder(1), Decoder(2), Decoder(3), Decoder(4), Decoder(5)
         self.decoders = [self.d5, self.d4, self.d3, self.d2, self.d1]
+
     def forward(self, content_img, style_img):
+
         for i in range(len(self.encoders)):
                 content_img = stylize(i, content_img, style_img, self.encoders, self.decoders, self.alpha, self.svd_device,self.cnn_device)
+
         return content_img
 

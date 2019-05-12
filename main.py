@@ -6,6 +6,7 @@ import torchvision
 import autoencoder
 import PairDataset
 from torch.utils.data import DataLoader
+import ipdb
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Pytorch implementation of arbitrary style transfer via CNN features WCT trasform')
@@ -20,9 +21,7 @@ def parse_args():
     return parser.parse_args()
 
 def save_image(img, content_name, style_name, out_ext, args):
-    torchvision.utils.save_image(img.cpu().detach().squeeze(0),
-     os.path.join(args.outDir, ''+ content_name + '_stylized_by_' + style_name + '_alpha_' + str(int(args.alpha*100)) + '.' + out_ext))
-
+    torchvision.utils.save_image(img.cpu().detach().squeeze(0), os.path.join(args.outDir, ''+ content_name + '_stylized_by_' + style_name + '_alpha_' + str(int(args.alpha*100)) + '.' + out_ext))
 
 def main():
     args = parse_args()
@@ -38,11 +37,12 @@ def main():
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=0)
 
     for i, sample in enumerate(dataloader):
+        ipdb.set_trace()
         s_basename = str(os.path.basename(sample['stylePath'][0]).split('.')[0])
         content = sample['content'].to(device=args.device)
         style = sample['style'].to(device=args.device)
         c_basename = str(os.path.basename(sample['contentPath'][0]).split('.')[0])
-        c_ext = str(os.path.basename(sample['contentPath'][0]).split('.')[-1])
+        c_ext = str(os.path.basename(sample['contentPath'][0]).split('.')[-1])  # jpg
         out = model(content, style)
         save_image(out, c_basename, s_basename, c_ext, args)
 

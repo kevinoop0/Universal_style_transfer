@@ -30,11 +30,9 @@ class Encoder(nn.Module):
             self.model = vgg_normalised_conv5_1.vgg_normalised_conv5_1
             self.model.load_state_dict(torch.load("models/autoencoder_vgg19/vgg19_5/vgg_normalised_conv5_1.pth"))
 
-
     def forward(self, x):
         out = self.model(x)
         return out
-
 
 class Decoder(nn.Module):
     def __init__(self, depth):
